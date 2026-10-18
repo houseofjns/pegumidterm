@@ -1,0 +1,1880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>House of J&amp;S Computer Training Center – Year 4 Computing Exam</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================================
+       DESIGN TOKENS
+       ============================================================ */
+    :root {
+      --gold:        #c9a227;
+      --gold-bright: #e8c84a;
+      --gold-soft:   #f3e2a9;
+      --gold-glow:   rgba(201, 162, 39, 0.35);
+      --maroon:      #7a1f1f;
+      --maroon-deep: #4a0e0e;
+      --maroon-soft: #a83131;
+      --cream:       #fdf9f0;
+      --cream-2:     #faf3e3;
+      --ink:         #2b1414;
+      --ink-soft:    #6b4a4a;
+      --line:        #efe3c9;
+
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-pill: 999px;
+
+      --shadow-sm: 0 2px 8px rgba(74, 14, 14, 0.08);
+      --shadow-md: 0 8px 24px rgba(74, 14, 14, 0.12);
+      --shadow-lg: 0 20px 50px rgba(74, 14, 14, 0.22);
+      --shadow-gold: 0 8px 24px var(--gold-glow);
+
+      --font-head: 'Poppins', system-ui, sans-serif;
+      --font-body: 'Inter', system-ui, sans-serif;
+
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(201,162,39,0.10), transparent 60%),
+        radial-gradient(900px 500px at 110% 10%, rgba(122,31,31,0.08), transparent 55%),
+        var(--cream);
+      line-height: 1.65;
+      min-height: 100vh;
+      padding: 24px 20px 60px;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.25; }
+
+    ::selection { background: var(--gold-bright); color: var(--maroon-deep); }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 12px; }
+    ::-webkit-scrollbar-track { background: var(--cream-2); }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(var(--gold), var(--maroon));
+      border-radius: 8px;
+      border: 3px solid var(--cream-2);
+    }
+
+    /* ============================================================
+       LOGIN SCREEN
+       ============================================================ */
+    #loginScreen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: calc(100vh - 84px);
+      padding: 20px;
+      animation: fadeIn 0.6s var(--ease);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(28px) scale(0.97); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .login-card {
+      position: relative;
+      width: 100%;
+      max-width: 460px;
+      padding: 48px 42px 40px;
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.98), rgba(253,249,240,0.98));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-lg), 0 0 0 6px rgba(201,162,39,0.10);
+      text-align: center;
+      overflow: hidden;
+      animation: floatIn 0.7s var(--ease);
+    }
+
+    /* Decorative top ribbon */
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--maroon), var(--gold), var(--maroon));
+      background-size: 200% 100%;
+      animation: ribbonFlow 6s linear infinite;
+    }
+    @keyframes ribbonFlow {
+      to { background-position: 200% 0; }
+    }
+
+    /* Decorative soft glow */
+    .login-card::after {
+      content: '';
+      position: absolute;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--gold-glow), transparent 70%);
+      top: -120px; right: -120px;
+      pointer-events: none;
+    }
+
+    .login-logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 104px; height: 104px;
+      border-radius: 28px;
+      background: #fff;
+      border: 3px solid var(--gold);
+      box-shadow: var(--shadow-gold), inset 0 0 0 6px #fff;
+      margin-bottom: 20px;
+      padding: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .login-logo img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 14px;
+    }
+
+    .login-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--maroon);
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+      position: relative;
+      z-index: 1;
+    }
+    .login-subtitle {
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--ink-soft);
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .login-pill {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(135deg, var(--maroon), var(--maroon-deep));
+      color: var(--gold-bright);
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-field {
+      text-align: left;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+    .login-field label {
+      display: block;
+      font-family: var(--font-head);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--maroon-deep);
+      margin-bottom: 8px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+    .login-input-wrap {
+      position: relative;
+    }
+    .login-input-wrap .field-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.05rem;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+    .login-input {
+      width: 100%;
+      padding: 14px 16px 14px 46px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--ink);
+      background: #fffdf8;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-sm);
+      outline: none;
+      transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease), background 0.25s;
+    }
+    .login-input::placeholder { color: #b09a86; }
+    .login-input:hover { border-color: var(--gold-soft); }
+    .login-input:focus {
+      border-color: var(--gold);
+      background: #fff;
+      box-shadow: 0 0 0 4px var(--gold-glow);
+    }
+
+    .login-error {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      margin: -6px 0 14px;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      background: #fdecea;
+      border: 1px solid #f5c6c1;
+      color: #b3261e;
+      font-size: 0.86rem;
+      font-weight: 600;
+      position: relative;
+      z-index: 1;
+    }
+    .login-error.show { display: flex; animation: shake 0.4s var(--ease); }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    .btn-login {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      padding: 16px;
+      margin-top: 8px;
+      font-family: var(--font-head);
+      font-size: 1.02rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--gold-bright);
+      background: linear-gradient(135deg, var(--maroon-soft), var(--maroon-deep));
+      border: 2px solid var(--gold);
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    }
+    .btn-login::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%);
+      transform: translateX(-120%);
+      transition: transform 0.6s var(--ease);
+    }
+    .btn-login:hover { transform: translateY(-2px); box-shadow: var(--shadow-gold), var(--shadow-md); }
+    .btn-login:hover::after { transform: translateX(120%); }
+    .btn-login:active { transform: translateY(0); }
+
+    .login-note {
+      margin-top: 22px;
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      line-height: 1.6;
+      position: relative;
+      z-index: 1;
+    }
+    .login-note strong { color: var(--maroon); }
+
+    /* ============================================================
+       EXAM WRAPPER
+       ============================================================ */
+    #examWrapper { display: none; max-width: 1080px; margin: 0 auto; }
+    #examWrapper.show { display: block; animation: fadeIn 0.5s var(--ease); }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      padding: 22px 28px;
+      border-radius: var(--radius-lg);
+      background:
+        radial-gradient(600px 200px at 0% 0%, rgba(201,162,39,0.18), transparent 70%),
+        linear-gradient(135deg, var(--maroon-soft), var(--maroon-deep) 70%);
+      border: 1px solid rgba(201,162,39,0.4);
+      box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.08);
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(45deg,
+          rgba(255,255,255,0.02) 0 2px,
+          transparent 2px 14px);
+      pointer-events: none;
+    }
+
+    .header-logo {
+      flex-shrink: 0;
+      width: 74px; height: 74px;
+      border-radius: 18px;
+      background: #fff;
+      padding: 8px;
+      border: 3px solid var(--gold);
+      box-shadow: var(--shadow-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+    .header-logo img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 10px; }
+
+    .header-text { position: relative; z-index: 1; }
+    .header-text h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--gold-bright);
+      letter-spacing: -0.3px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+    }
+    .header-text p {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: #f2e2bd;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* INFO BAR (sticky) */
+    .info-bar {
+      position: sticky;
+      top: 12px;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 12px 20px;
+      margin-bottom: 24px;
+      border-radius: var(--radius-md);
+      background: rgba(253, 249, 240, 0.92);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .info-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: var(--radius-pill);
+      font-family: var(--font-head);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+    }
+    .chip-marks {
+      background: var(--cream-2);
+      color: var(--maroon);
+      border: 1px solid var(--gold-soft);
+    }
+    .chip-student {
+      background: linear-gradient(135deg, var(--maroon-soft), var(--maroon-deep));
+      color: var(--gold-bright);
+      border: 1px solid var(--gold);
+      box-shadow: var(--shadow-sm);
+      max-width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .chip-timer {
+      background: linear-gradient(135deg, #1f1a12, #3a2410);
+      color: var(--gold-bright);
+      border: 1px solid var(--gold);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 1px;
+      box-shadow: var(--shadow-sm);
+      transition: background 0.3s;
+    }
+    .chip-timer.warning {
+      background: linear-gradient(135deg, #6a1414, #a83131);
+      animation: pulse 1s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(168,49,49,0.5); }
+      50%     { box-shadow: 0 0 0 8px rgba(168,49,49,0); }
+    }
+
+    /* PROGRESS BAR */
+    .progress-wrap {
+      width: 100%;
+      padding: 4px 4px 0;
+      margin-top: 6px;
+    }
+    .progress-track {
+      height: 8px;
+      background: var(--cream-2);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: var(--radius-pill);
+      background: linear-gradient(90deg, var(--gold), var(--maroon-soft));
+      transition: width 0.4s var(--ease);
+    }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--ink-soft);
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    /* ============================================================
+       SECTIONS
+       ============================================================ */
+    .section {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 30px 32px;
+      margin-bottom: 28px;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+    .section::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 6px;
+      background: linear-gradient(180deg, var(--gold), var(--maroon));
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+    .section-icon {
+      flex-shrink: 0;
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--gold-soft), var(--gold-bright));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .section h2 {
+      font-size: 1.22rem;
+      font-weight: 700;
+      color: var(--maroon);
+      letter-spacing: -0.2px;
+    }
+    .section-sub {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      margin: 0 0 22px 58px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed var(--line);
+    }
+
+    /* ============================================================
+       QUESTIONS
+       ============================================================ */
+    .question {
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      border-radius: var(--radius-md);
+      border: 1px solid transparent;
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .question:hover {
+      background: var(--cream);
+      border-color: var(--line);
+    }
+
+    .q-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px; height: 34px;
+      padding: 0 10px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--maroon-soft), var(--maroon-deep));
+      color: var(--gold-bright);
+      font-family: var(--font-head);
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-right: 12px;
+      box-shadow: var(--shadow-sm);
+      vertical-align: middle;
+    }
+    .q-text {
+      display: inline;
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--ink);
+      vertical-align: middle;
+    }
+    .q-body { margin-top: 12px; }
+
+    /* MCQ */
+    .options { display: flex; flex-direction: column; gap: 6px; margin-left: 46px; }
+    .options label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 16px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--line);
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.96rem;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    }
+    .options label:hover {
+      border-color: var(--gold);
+      background: var(--cream);
+      transform: translateX(3px);
+    }
+    .options input[type="radio"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px; height: 20px;
+      border: 2px solid #c7b8a2;
+      border-radius: 50%;
+      flex-shrink: 0;
+      position: relative;
+      transition: border-color 0.2s;
+      cursor: pointer;
+    }
+    .options input[type="radio"]:checked {
+      border-color: var(--maroon);
+      background: var(--maroon);
+      box-shadow: inset 0 0 0 3px #fff;
+    }
+    .options input[type="radio"]:checked + span { color: var(--maroon); font-weight: 600; }
+
+    /* Fill-in */
+    .fill-input {
+      width: 100%;
+      max-width: 340px;
+      margin-left: 46px;
+      margin-top: 4px;
+      padding: 12px 16px;
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--ink);
+      background: #fffdf8;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-sm);
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+    }
+    .fill-input::placeholder { color: #b09a86; }
+    .fill-input:focus {
+      border-color: var(--gold);
+      background: #fff;
+      box-shadow: 0 0 0 4px var(--gold-glow);
+    }
+
+    /* Matching table */
+    .match-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      margin-top: 12px;
+    }
+    .match-table thead th {
+      padding: 14px 18px;
+      background: linear-gradient(135deg, var(--maroon-soft), var(--maroon-deep));
+      color: var(--gold-bright);
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-align: left;
+      text-transform: uppercase;
+    }
+    .match-table tbody td {
+      padding: 12px 18px;
+      border-top: 1px solid var(--line);
+      font-size: 0.95rem;
+      vertical-align: middle;
+    }
+    .match-table tbody tr:nth-child(even) { background: var(--cream); }
+    .match-table tbody tr:hover { background: var(--cream-2); }
+    .match-table td:first-child { font-weight: 600; color: var(--maroon-deep); width: 30%; }
+
+    .match-select {
+      width: 100%;
+      max-width: 480px;
+      padding: 10px 36px 10px 14px;
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      color: var(--ink);
+      background:
+        url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237a1f1f' d='M6 8L0 0h12z'/%3E%3C/svg%3E")
+        no-repeat right 14px center,
+        #fffdf8;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-sm);
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .match-select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px var(--gold-glow);
+    }
+
+    /* True/False */
+    .tf-options {
+      display: flex;
+      gap: 12px;
+      margin-left: 46px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .tf-options label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 22px;
+      border-radius: var(--radius-pill);
+      border: 2px solid var(--line);
+      background: #fff;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .tf-options label:hover { border-color: var(--gold); background: var(--cream); }
+    .tf-options input[type="radio"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px; height: 18px;
+      border: 2px solid #c7b8a2;
+      border-radius: 50%;
+      position: relative;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .tf-options input[type="radio"]:checked {
+      border-color: var(--maroon);
+      background: var(--maroon);
+      box-shadow: inset 0 0 0 3px #fff;
+    }
+
+    /* Short answer */
+    .short-textarea {
+      width: calc(100% - 46px);
+      min-height: 90px;
+      margin-left: 46px;
+      margin-top: 8px;
+      padding: 14px 16px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--ink);
+      background: #fffdf8;
+      border: 2px solid var(--line);
+      border-radius: var(--radius-sm);
+      outline: none;
+      resize: vertical;
+      transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+    }
+    .short-textarea::placeholder { color: #b09a86; }
+    .short-textarea:focus {
+      border-color: var(--gold);
+      background: #fff;
+      box-shadow: 0 0 0 4px var(--gold-glow);
+    }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin: 40px 0 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      position: relative;
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      padding: 16px 44px;
+      border-radius: var(--radius-pill);
+      cursor: pointer;
+      border: 2px solid var(--gold);
+      color: var(--gold-bright);
+      background: linear-gradient(135deg, var(--maroon-soft), var(--maroon-deep));
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+      transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+    }
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.25) 50%, transparent 70%);
+      transform: translateX(-120%);
+      transition: transform 0.6s var(--ease);
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: var(--shadow-gold), var(--shadow-md); }
+    .btn:hover::after { transform: translateX(120%); }
+    .btn:active { transform: translateY(-1px); }
+
+    .btn-ghost {
+      background: #fff;
+      color: var(--maroon);
+      border: 2px solid var(--maroon);
+    }
+    .btn-ghost::after { display: none; }
+    .btn-ghost:hover { background: var(--cream); box-shadow: var(--shadow-md); }
+
+    /* ============================================================
+       RESULTS
+       ============================================================ */
+    .result-box {
+      display: none;
+      margin-top: 40px;
+      padding: 0;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow-lg);
+      background: #fff;
+      animation: floatIn 0.5s var(--ease);
+    }
+    .result-box.show { display: block; }
+
+    .result-head {
+      padding: 36px 32px;
+      text-align: center;
+      background:
+        radial-gradient(500px 200px at 50% 0%, rgba(201,162,39,0.25), transparent 70%),
+        linear-gradient(135deg, var(--maroon-soft), var(--maroon-deep));
+      color: var(--gold-bright);
+      position: relative;
+      overflow: hidden;
+    }
+    .result-head::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(45deg,
+        rgba(255,255,255,0.02) 0 2px, transparent 2px 16px);
+      pointer-events: none;
+    }
+
+    .result-badge {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: var(--radius-pill);
+      background: rgba(201,162,39,0.18);
+      border: 1px solid var(--gold);
+      color: var(--gold-bright);
+      font-family: var(--font-head);
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .score-display {
+      font-family: var(--font-head);
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 6px;
+    }
+    .score-display span { color: #fff; opacity: 0.7; font-weight: 500; font-size: 1.4rem; }
+    .score-sub {
+      font-size: 1rem;
+      color: #f2e2bd;
+      position: relative;
+      z-index: 1;
+    }
+    .score-sub strong { color: var(--gold-bright); }
+
+    .result-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1px;
+      background: var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .stat {
+      padding: 20px;
+      text-align: center;
+      background: #fff;
+    }
+    .stat-num {
+      font-family: var(--font-head);
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--maroon);
+      letter-spacing: -0.5px;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--ink-soft);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+    .stat.good .stat-num { color: #2e7d32; }
+    .stat.bad .stat-num { color: #c62828; }
+
+    .corrections-list {
+      padding: 28px 32px;
+      max-height: 560px;
+      overflow-y: auto;
+    }
+    .corrections-list h3 {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--maroon);
+      margin-bottom: 14px;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .correction-item {
+      padding: 14px 18px;
+      margin: 8px 0;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--line);
+      background: #fff;
+      font-size: 0.9rem;
+      line-height: 1.55;
+      transition: transform 0.15s;
+    }
+    .correction-item:hover { transform: translateX(3px); }
+    .correction-item.correct {
+      border-left-color: #2e7d32;
+      background: #f2f9f2;
+    }
+    .correction-item.incorrect {
+      border-left-color: #c62828;
+      background: #fdf2f1;
+    }
+    .correction-item .q-num {
+      display: inline-block;
+      font-family: var(--font-head);
+      font-weight: 700;
+      color: var(--maroon-deep);
+      margin-right: 4px;
+    }
+    .correct-ans { color: #2e7d32; font-weight: 700; }
+    .wrong-ans { color: #c62828; font-weight: 700; }
+    .check-icon { float: right; font-size: 1rem; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 720px) {
+      body { padding: 16px 12px 40px; }
+      .header { flex-direction: column; text-align: center; padding: 20px; }
+      .header-text h1 { font-size: 1.15rem; }
+      .header-text p { font-size: 0.8rem; }
+      .login-card { padding: 36px 24px 30px; }
+      .section { padding: 22px 18px; }
+      .section-sub { margin-left: 0; }
+      .options { margin-left: 0; }
+      .fill-input, .tf-options, .short-textarea { margin-left: 0; width: 100%; }
+      .short-textarea { width: 100%; }
+      .score-display { font-size: 2rem; }
+      .match-table thead th { padding: 10px 12px; font-size: 0.75rem; }
+      .match-table tbody td { padding: 10px 12px; font-size: 0.85rem; }
+      .match-select { max-width: 100%; font-size: 0.85rem; }
+      .chip-student { max-width: 140px; font-size: 0.75rem; }
+      .info-bar { padding: 10px 14px; }
+      .btn { padding: 14px 32px; font-size: 0.92rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!-- LOGIN SCREEN                                                  -->
+  <!-- ============================================================ -->
+  <div id="loginScreen">
+    <div class="login-card">
+      <div class="login-logo">
+        <img src="logo1.png" alt="House of J&amp;S Logo">
+      </div>
+
+      <h1 class="login-title">House of J&amp;S Computer Training Center</h1>
+      <p class="login-subtitle">Year 4 Computing Examination</p>
+      <span class="login-pill">Units 1 &amp; 4 · 80 Marks · 60 Minutes</span>
+
+      <div class="login-field">
+        <label for="studentName">Student Name</label>
+        <div class="login-input-wrap">
+          <span class="field-icon">👤</span>
+          <input type="text" id="studentName" class="login-input" placeholder="Enter your full name" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="login-field">
+        <label for="studentPassword">Exam Password</label>
+        <div class="login-input-wrap">
+          <span class="field-icon">🔒</span>
+          <input type="password" id="studentPassword" class="login-input" placeholder="Enter exam password" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="login-error" id="loginError">
+        <span>⚠️</span><span id="loginErrorText"></span>
+      </div>
+
+      <button class="btn-login" onclick="handleLogin()">🔓 Login &amp; Start Exam</button>
+
+      <p class="login-note">
+        Only registered students may take this exam.<br>
+        Contact your teacher if you do not have the password.
+      </p>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- EXAM WRAPPER                                                  -->
+  <!-- ============================================================ -->
+  <div id="examWrapper">
+
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-logo">
+        <img src="logo1.png" alt="House of J&amp;S Logo">
+      </div>
+      <div class="header-text">
+        <h1>House of J&amp;S Computer Training Center</h1>
+        <p>Year 4 Computing Examination — Units 1 &amp; 4</p>
+      </div>
+    </header>
+
+    <!-- INFO BAR -->
+    <div class="info-bar">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <span class="info-chip chip-marks">📝 80 Marks</span>
+        <span class="info-chip chip-student" id="studentBadge">👤 Student</span>
+      </div>
+      <span class="info-chip chip-timer" id="timerDisplay">⏱ 60:00</span>
+
+      <div class="progress-wrap">
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-label">
+          <span>Progress</span>
+          <span id="progressText">0 / 60 answered</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXAM FORM -->
+    <form id="examForm">
+
+      <!-- ============================================================ -->
+      <!-- SECTION A: MULTIPLE CHOICE                                   -->
+      <!-- ============================================================ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-icon">🎯</div>
+          <h2>Section A — Multiple Choice</h2>
+        </div>
+        <p class="section-sub">Choose the correct answer. Each question carries <strong>1 mark</strong> · 20 marks total.</p>
+
+        <div class="question" data-q="1" data-type="mcq">
+          <span class="q-label">1</span>
+          <span class="q-text">What is an algorithm?</span>
+          <div class="options">
+            <label><input type="radio" name="q1" value="A"><span>A. A type of computer hardware</span></label>
+            <label><input type="radio" name="q1" value="B"><span>B. A step-by-step set of instructions</span></label>
+            <label><input type="radio" name="q1" value="C"><span>C. A video editing tool</span></label>
+            <label><input type="radio" name="q1" value="D"><span>D. A kind of online game</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="2" data-type="mcq">
+          <span class="q-label">2</span>
+          <span class="q-text">What is cyberbullying?</span>
+          <div class="options">
+            <label><input type="radio" name="q2" value="A"><span>A. Bullying that happens at school</span></label>
+            <label><input type="radio" name="q2" value="B"><span>B. Bullying that happens in the playground</span></label>
+            <label><input type="radio" name="q2" value="C"><span>C. Bullying that happens online or through messaging apps</span></label>
+            <label><input type="radio" name="q2" value="D"><span>D. Bullying that happens on television</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="3" data-type="mcq">
+          <span class="q-label">3</span>
+          <span class="q-text">Which of these is personal information you should <strong>not</strong> share online?</span>
+          <div class="options">
+            <label><input type="radio" name="q3" value="A"><span>A. Your favourite colour</span></label>
+            <label><input type="radio" name="q3" value="B"><span>B. Your favourite hobby</span></label>
+            <label><input type="radio" name="q3" value="C"><span>C. Your first name</span></label>
+            <label><input type="radio" name="q3" value="D"><span>D. Your home address</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="4" data-type="mcq">
+          <span class="q-label">4</span>
+          <span class="q-text">What does “cropping” mean in video editing?</span>
+          <div class="options">
+            <label><input type="radio" name="q4" value="A"><span>A. Cutting something out of a picture or video</span></label>
+            <label><input type="radio" name="q4" value="B"><span>B. Joining two videos together</span></label>
+            <label><input type="radio" name="q4" value="C"><span>C. Adding sound effects</span></label>
+            <label><input type="radio" name="q4" value="D"><span>D. Making the video brighter</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="5" data-type="mcq">
+          <span class="q-label">5</span>
+          <span class="q-text">In programming, what is a sequence?</span>
+          <div class="options">
+            <label><input type="radio" name="q5" value="A"><span>A. A loop that never ends</span></label>
+            <label><input type="radio" name="q5" value="B"><span>B. Instructions that are followed in order</span></label>
+            <label><input type="radio" name="q5" value="C"><span>C. A type of computer bug</span></label>
+            <label><input type="radio" name="q5" value="D"><span>D. A shape with many sides</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="6" data-type="mcq">
+          <span class="q-label">6</span>
+          <span class="q-text">What is a loop in programming?</span>
+          <div class="options">
+            <label><input type="radio" name="q6" value="A"><span>A. A straight line</span></label>
+            <label><input type="radio" name="q6" value="B"><span>B. A type of error</span></label>
+            <label><input type="radio" name="q6" value="C"><span>C. A sequence that repeats</span></label>
+            <label><input type="radio" name="q6" value="D"><span>D. A drawing tool</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="7" data-type="mcq">
+          <span class="q-label">7</span>
+          <span class="q-text">What is a polygon?</span>
+          <div class="options">
+            <label><input type="radio" name="q7" value="A"><span>A. A 3D shape</span></label>
+            <label><input type="radio" name="q7" value="B"><span>B. A 2D shape with three or more straight sides</span></label>
+            <label><input type="radio" name="q7" value="C"><span>C. A circle</span></label>
+            <label><input type="radio" name="q7" value="D"><span>D. A type of computer program</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="8" data-type="mcq">
+          <span class="q-label">8</span>
+          <span class="q-text">How many degrees are in a full turn?</span>
+          <div class="options">
+            <label><input type="radio" name="q8" value="A"><span>A. 90 degrees</span></label>
+            <label><input type="radio" name="q8" value="B"><span>B. 180 degrees</span></label>
+            <label><input type="radio" name="q8" value="C"><span>C. 270 degrees</span></label>
+            <label><input type="radio" name="q8" value="D"><span>D. 360 degrees</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="9" data-type="mcq">
+          <span class="q-label">9</span>
+          <span class="q-text">What is green screen videoing?</span>
+          <div class="options">
+            <label><input type="radio" name="q9" value="A"><span>A. Recording in front of a coloured background that can be replaced later</span></label>
+            <label><input type="radio" name="q9" value="B"><span>B. Recording in a garden</span></label>
+            <label><input type="radio" name="q9" value="C"><span>C. Editing a video with green filters</span></label>
+            <label><input type="radio" name="q9" value="D"><span>D. Taking photos with a green camera</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="10" data-type="mcq">
+          <span class="q-label">10</span>
+          <span class="q-text">What is a nested loop?</span>
+          <div class="options">
+            <label><input type="radio" name="q10" value="A"><span>A. A loop that stops immediately</span></label>
+            <label><input type="radio" name="q10" value="B"><span>B. A loop that only runs once</span></label>
+            <label><input type="radio" name="q10" value="C"><span>C. A loop inside another loop</span></label>
+            <label><input type="radio" name="q10" value="D"><span>D. A loop that draws circles</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="11" data-type="mcq">
+          <span class="q-label">11</span>
+          <span class="q-text">What should you do if you see someone being cyberbullied?</span>
+          <div class="options">
+            <label><input type="radio" name="q11" value="A"><span>A. Join in</span></label>
+            <label><input type="radio" name="q11" value="B"><span>B. Tell a trusted adult</span></label>
+            <label><input type="radio" name="q11" value="C"><span>C. Ignore it</span></label>
+            <label><input type="radio" name="q11" value="D"><span>D. Share it with friends</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="12" data-type="mcq">
+          <span class="q-label">12</span>
+          <span class="q-text">What is the purpose of a script in video production?</span>
+          <div class="options">
+            <label><input type="radio" name="q12" value="A"><span>A. To make the video longer</span></label>
+            <label><input type="radio" name="q12" value="B"><span>B. To add background music</span></label>
+            <label><input type="radio" name="q12" value="C"><span>C. To edit the video</span></label>
+            <label><input type="radio" name="q12" value="D"><span>D. To plan what will be said and done</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="13" data-type="mcq">
+          <span class="q-label">13</span>
+          <span class="q-text">What does “merging” mean in video editing?</span>
+          <div class="options">
+            <label><input type="radio" name="q13" value="A"><span>A. Joining two things together</span></label>
+            <label><input type="radio" name="q13" value="B"><span>B. Cutting a video</span></label>
+            <label><input type="radio" name="q13" value="C"><span>C. Deleting a clip</span></label>
+            <label><input type="radio" name="q13" value="D"><span>D. Adding text</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="14" data-type="mcq">
+          <span class="q-label">14</span>
+          <span class="q-text">What is debugging?</span>
+          <div class="options">
+            <label><input type="radio" name="q14" value="A"><span>A. Deleting a program</span></label>
+            <label><input type="radio" name="q14" value="B"><span>B. Finding and fixing errors in a program</span></label>
+            <label><input type="radio" name="q14" value="C"><span>C. Writing a new program</span></label>
+            <label><input type="radio" name="q14" value="D"><span>D. Running a program</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="15" data-type="mcq">
+          <span class="q-label">15</span>
+          <span class="q-text">Which shape has 4 sides?</span>
+          <div class="options">
+            <label><input type="radio" name="q15" value="A"><span>A. Triangle</span></label>
+            <label><input type="radio" name="q15" value="B"><span>B. Pentagon</span></label>
+            <label><input type="radio" name="q15" value="C"><span>C. Square</span></label>
+            <label><input type="radio" name="q15" value="D"><span>D. Hexagon</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="16" data-type="mcq">
+          <span class="q-label">16</span>
+          <span class="q-text">What is personal information?</span>
+          <div class="options">
+            <label><input type="radio" name="q16" value="A"><span>A. Information that can identify you</span></label>
+            <label><input type="radio" name="q16" value="B"><span>B. Your favourite food</span></label>
+            <label><input type="radio" name="q16" value="C"><span>C. Your favourite game</span></label>
+            <label><input type="radio" name="q16" value="D"><span>D. The weather</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="17" data-type="mcq">
+          <span class="q-label">17</span>
+          <span class="q-text">What is usually the first step in writing a program?</span>
+          <div class="options">
+            <label><input type="radio" name="q17" value="A"><span>A. Debugging</span></label>
+            <label><input type="radio" name="q17" value="B"><span>B. Planning the algorithm</span></label>
+            <label><input type="radio" name="q17" value="C"><span>C. Adding colours</span></label>
+            <label><input type="radio" name="q17" value="D"><span>D. Sharing the program</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="18" data-type="mcq">
+          <span class="q-label">18</span>
+          <span class="q-text">What does “importing” mean in video editing?</span>
+          <div class="options">
+            <label><input type="radio" name="q18" value="A"><span>A. Deleting a file</span></label>
+            <label><input type="radio" name="q18" value="B"><span>B. Exporting a video</span></label>
+            <label><input type="radio" name="q18" value="C"><span>C. Recording a video</span></label>
+            <label><input type="radio" name="q18" value="D"><span>D. Bringing a file into the application</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="19" data-type="mcq">
+          <span class="q-label">19</span>
+          <span class="q-text">How many degrees does a triangle turn at each corner?</span>
+          <div class="options">
+            <label><input type="radio" name="q19" value="A"><span>A. 120 degrees</span></label>
+            <label><input type="radio" name="q19" value="B"><span>B. 90 degrees</span></label>
+            <label><input type="radio" name="q19" value="C"><span>C. 60 degrees</span></label>
+            <label><input type="radio" name="q19" value="D"><span>D. 180 degrees</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="20" data-type="mcq">
+          <span class="q-label">20</span>
+          <span class="q-text">What is a trusted adult?</span>
+          <div class="options">
+            <label><input type="radio" name="q20" value="A"><span>A. A stranger online</span></label>
+            <label><input type="radio" name="q20" value="B"><span>B. A cartoon character</span></label>
+            <label><input type="radio" name="q20" value="C"><span>C. Someone you can talk to for help and advice</span></label>
+            <label><input type="radio" name="q20" value="D"><span>D. A computer program</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION B: FILL IN THE BLANKS                                -->
+      <!-- ============================================================ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-icon">✏️</div>
+          <h2>Section B — Fill in the Blanks</h2>
+        </div>
+        <p class="section-sub">Write the correct word or phrase. Each blank carries <strong>1 mark</strong> · 10 marks total.</p>
+
+        <div class="question" data-q="21" data-type="fill">
+          <span class="q-label">21</span><span class="q-text">An ________ is a step-by-step set of instructions.</span>
+          <div class="q-body"><input type="text" class="fill-input" name="q21" placeholder="Your answer..."></div>
+        </div>
+
+        <div class="question" data-q="22" data-type="fill">
+          <span class="q-label">22</span><span class="q-text">________ is bullying that happens online or through messaging apps.</span>
+          <div class="q-body"><input type="text" class="fill-input" name="q22" placeholder="Your answer..."></div>
+        </div>
+
+        <div class="question" data-q="23" data-type="fill">
+          <span class="q-label">23</span><span class="q-text">In programming, a ________ is a sequence that repeats.</span>
+          <div class="q-body"><input type="text" class="fill-input" name="q23" placeholder="Your answer..."></div>
+        </div>
+
+        <div class="question" data-q="24" data-type="fill">
+          <span class="q-label">24</span><span class="q-text">A ________ is a 2D shape with three or more straight sides.</span>
+          <div class="q-body"><input type="text" class="fill-input" name="q24" placeholder="Your answer..."></div>
+        </div>
+
+        <div class="question" data-q="25" data-type="fill">
+          <span class="q-label">25</span><span class="q-text">________ is when you remove unwanted parts of a video.</span>
+          <div class="q-body"><input type="text" class="fill-input" name="q25" placeholder="Your answer..."></div>
+        </div>
+
+        <div class="question" data-q="26" data-type="fill">
+          <span class="q-label">26</span><span class="q-text">You should tell a ________ adult if you are being cyberbullied.</span>
+          <div class="q-body"><input type="text" class="fill-input" name="q26" placeholder="Your answer..."></div>
+        </div>
+
+        <div class="question" data-q="27" data-type="fill">
+          <span class="q-label">27</span><span class="q-text">A ________ loop is a loop inside another loop.</span>
+          <div class="q-body"><input type="text" class="fill-input" name="q27" placeholder="Your answer..."></div>
+        </div>
+
+        <div class="question" data-q="28" data-type="fill">
+          <span class="q-label">28</span><span class="q-text">________ means joining two things together.</span>
+          <div class="q-body"><input type="text" class="fill-input" name="q28" placeholder="Your answer..."></div>
+        </div>
+
+        <div class="question" data-q="29" data-type="fill">
+          <span class="q-label">29</span><span class="q-text">A square has ________ sides.</span>
+          <div class="q-body"><input type="text" class="fill-input" name="q29" placeholder="Your answer..."></div>
+        </div>
+
+        <div class="question" data-q="30" data-type="fill">
+          <span class="q-label">30</span><span class="q-text">________ is the process of finding and fixing errors in a program.</span>
+          <div class="q-body"><input type="text" class="fill-input" name="q30" placeholder="Your answer..."></div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION C: MATCHING                                          -->
+      <!-- ============================================================ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-icon">🔗</div>
+          <h2>Section C — Matching</h2>
+        </div>
+        <p class="section-sub">Match each term in Column A with the correct description in Column B. Each match carries <strong>1 mark</strong> · 10 marks total.</p>
+
+        <div style="overflow-x:auto;">
+          <table class="match-table">
+            <thead>
+              <tr>
+                <th>Column A</th>
+                <th>Column B</th>
+              </tr>
+            </thead>
+            <tbody id="matchBody">
+              <!-- rows injected by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION D: TRUE OR FALSE                                     -->
+      <!-- ============================================================ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-icon">✔️</div>
+          <h2>Section D — True or False</h2>
+        </div>
+        <p class="section-sub">Choose whether each statement is True or False. Each question carries <strong>1 mark</strong> · 10 marks total.</p>
+
+        <div class="question" data-q="41" data-type="tf">
+          <span class="q-label">41</span><span class="q-text">You should share your home address online.</span>
+          <div class="tf-options">
+            <label><input type="radio" name="q41" value="True"><span>True</span></label>
+            <label><input type="radio" name="q41" value="False"><span>False</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="42" data-type="tf">
+          <span class="q-label">42</span><span class="q-text">Cyberbullying only happens in person.</span>
+          <div class="tf-options">
+            <label><input type="radio" name="q42" value="True"><span>True</span></label>
+            <label><input type="radio" name="q42" value="False"><span>False</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="43" data-type="tf">
+          <span class="q-label">43</span><span class="q-text">A loop helps you write less code.</span>
+          <div class="tf-options">
+            <label><input type="radio" name="q43" value="True"><span>True</span></label>
+            <label><input type="radio" name="q43" value="False"><span>False</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="44" data-type="tf">
+          <span class="q-label">44</span><span class="q-text">A square has 3 sides.</span>
+          <div class="tf-options">
+            <label><input type="radio" name="q44" value="True"><span>True</span></label>
+            <label><input type="radio" name="q44" value="False"><span>False</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="45" data-type="tf">
+          <span class="q-label">45</span><span class="q-text">You should tell a trusted adult if you see cyberbullying.</span>
+          <div class="tf-options">
+            <label><input type="radio" name="q45" value="True"><span>True</span></label>
+            <label><input type="radio" name="q45" value="False"><span>False</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="46" data-type="tf">
+          <span class="q-label">46</span><span class="q-text">Debugging means deleting your program.</span>
+          <div class="tf-options">
+            <label><input type="radio" name="q46" value="True"><span>True</span></label>
+            <label><input type="radio" name="q46" value="False"><span>False</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="47" data-type="tf">
+          <span class="q-label">47</span><span class="q-text">A nested loop is a loop inside another loop.</span>
+          <div class="tf-options">
+            <label><input type="radio" name="q47" value="True"><span>True</span></label>
+            <label><input type="radio" name="q47" value="False"><span>False</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="48" data-type="tf">
+          <span class="q-label">48</span><span class="q-text">Cropping is used to add sound effects.</span>
+          <div class="tf-options">
+            <label><input type="radio" name="q48" value="True"><span>True</span></label>
+            <label><input type="radio" name="q48" value="False"><span>False</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="49" data-type="tf">
+          <span class="q-label">49</span><span class="q-text">An algorithm is a step-by-step set of instructions.</span>
+          <div class="tf-options">
+            <label><input type="radio" name="q49" value="True"><span>True</span></label>
+            <label><input type="radio" name="q49" value="False"><span>False</span></label>
+          </div>
+        </div>
+
+        <div class="question" data-q="50" data-type="tf">
+          <span class="q-label">50</span><span class="q-text">Green screen videoing uses a coloured background.</span>
+          <div class="tf-options">
+            <label><input type="radio" name="q50" value="True"><span>True</span></label>
+            <label><input type="radio" name="q50" value="False"><span>False</span></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- SECTION E: SHORT QUESTIONS                                   -->
+      <!-- ============================================================ -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-icon">📝</div>
+          <h2>Section E — Short Questions</h2>
+        </div>
+        <p class="section-sub">Answer each question. Each carries <strong>3 marks</strong> · 30 marks total.</p>
+
+        <div class="question" data-q="51" data-type="short">
+          <span class="q-label">51</span><span class="q-text">What is cyberbullying? Give an example.</span>
+          <div class="q-body"><textarea class="short-textarea" name="q51" placeholder="Write your answer here..."></textarea></div>
+        </div>
+
+        <div class="question" data-q="52" data-type="short">
+          <span class="q-label">52</span><span class="q-text">Explain what an algorithm is and give an example.</span>
+          <div class="q-body"><textarea class="short-textarea" name="q52" placeholder="Write your answer here..."></textarea></div>
+        </div>
+
+        <div class="question" data-q="53" data-type="short">
+          <span class="q-label">53</span><span class="q-text">How can you help someone who is being cyberbullied?</span>
+          <div class="q-body"><textarea class="short-textarea" name="q53" placeholder="Write your answer here..."></textarea></div>
+        </div>
+
+        <div class="question" data-q="54" data-type="short">
+          <span class="q-label">54</span><span class="q-text">What is the difference between a loop and a nested loop?</span>
+          <div class="q-body"><textarea class="short-textarea" name="q54" placeholder="Write your answer here..."></textarea></div>
+        </div>
+
+        <div class="question" data-q="55" data-type="short">
+          <span class="q-label">55</span><span class="q-text">What is green screen videoing and how does it work?</span>
+          <div class="q-body"><textarea class="short-textarea" name="q55" placeholder="Write your answer here..."></textarea></div>
+        </div>
+
+        <div class="question" data-q="56" data-type="short">
+          <span class="q-label">56</span><span class="q-text">Why is it important to debug a program?</span>
+          <div class="q-body"><textarea class="short-textarea" name="q56" placeholder="Write your answer here..."></textarea></div>
+        </div>
+
+        <div class="question" data-q="57" data-type="short">
+          <span class="q-label">57</span><span class="q-text">What is personal information? Give two examples of personal information you should not share online.</span>
+          <div class="q-body"><textarea class="short-textarea" name="q57" placeholder="Write your answer here..."></textarea></div>
+        </div>
+
+        <div class="question" data-q="58" data-type="short">
+          <span class="q-label">58</span><span class="q-text">Explain what a sequence is in programming.</span>
+          <div class="q-body"><textarea class="short-textarea" name="q58" placeholder="Write your answer here..."></textarea></div>
+        </div>
+
+        <div class="question" data-q="59" data-type="short">
+          <span class="q-label">59</span><span class="q-text">What is cropping and merging in video editing?</span>
+          <div class="q-body"><textarea class="short-textarea" name="q59" placeholder="Write your answer here..."></textarea></div>
+        </div>
+
+        <div class="question" data-q="60" data-type="short">
+          <span class="q-label">60</span><span class="q-text">How many degrees are in a full turn? How is this used when drawing shapes in programming?</span>
+          <div class="q-body"><textarea class="short-textarea" name="q60" placeholder="Write your answer here..."></textarea></div>
+        </div>
+      </div>
+
+      <!-- SUBMIT BUTTONS -->
+      <div class="btn-group">
+        <button type="button" class="btn" onclick="submitExam()">✅ Submit Exam</button>
+        <button type="button" class="btn btn-ghost" onclick="resetExam()">🔄 Reset</button>
+      </div>
+    </form>
+
+    <!-- RESULT BOX -->
+    <div class="result-box" id="resultBox">
+      <div class="result-head">
+        <span class="result-badge">Exam Result</span>
+        <div class="score-display" id="scoreDisplay">0<span>/80</span></div>
+        <div class="score-sub" id="scoreSub"></div>
+      </div>
+      <div class="result-stats">
+        <div class="stat good">
+          <div class="stat-num" id="statCorrect">0</div>
+          <div class="stat-label">Correct</div>
+        </div>
+        <div class="stat bad">
+          <div class="stat-num" id="statWrong">0</div>
+          <div class="stat-label">Incorrect / Blank</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" id="statAttempted">0</div>
+          <div class="stat-label">Attempted</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" id="statPercent">0%</div>
+          <div class="stat-label">Percentage</div>
+        </div>
+      </div>
+      <div class="corrections-list">
+        <h3>📋 Answer Corrections</h3>
+        <div id="correctionsList"></div>
+      </div>
+    </div>
+
+  </div><!-- /examWrapper -->
+
+  <!-- ============================================================ -->
+  <!-- JAVASCRIPT                                                    -->
+  <!-- ============================================================ -->
+  <script>
+    /* ============================================================
+       LOGIN
+       ============================================================ */
+    const EXAM_PASSWORD = 'HJS2026';
+    let currentStudent = '';
+
+    function showLoginError(msg) {
+      const box = document.getElementById('loginError');
+      document.getElementById('loginErrorText').textContent = msg;
+      box.classList.add('show');
+    }
+    function hideLoginError() {
+      document.getElementById('loginError').classList.remove('show');
+    }
+
+    function handleLogin() {
+      const name = document.getElementById('studentName').value.trim();
+      const pass = document.getElementById('studentPassword').value.trim();
+      hideLoginError();
+
+      if (!name) { showLoginError('Please enter your student name.'); document.getElementById('studentName').focus(); return; }
+      if (!pass) { showLoginError('Please enter the exam password.'); document.getElementById('studentPassword').focus(); return; }
+      if (pass !== EXAM_PASSWORD) {
+        showLoginError('Incorrect password. Please check with your teacher.');
+        document.getElementById('studentPassword').value = '';
+        document.getElementById('studentPassword').focus();
+        return;
+      }
+
+      currentStudent = name;
+      document.getElementById('studentBadge').textContent = '👤 ' + name;
+      document.getElementById('loginScreen').style.display = 'none';
+      document.getElementById('examWrapper').classList.add('show');
+      startTimer();
+      attachProgressListeners();
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.getElementById('studentName').addEventListener('keydown', e => {
+      if (e.key === 'Enter') document.getElementById('studentPassword').focus();
+    });
+    document.getElementById('studentPassword').addEventListener('keydown', e => {
+      if (e.key === 'Enter') handleLogin();
+    });
+
+    /* ============================================================
+       BUILD MATCHING TABLE (cleaner than hardcoded HTML)
+       ============================================================ */
+    const matchTerms = ['Algorithm','Cyberbullying','Loop','Polygon','Cropping','Nested loop','Debugging','Green screen','Sequence','Trusted adult'];
+    const matchOptions = [
+      'A. A loop inside another loop',
+      'B. A step-by-step set of instructions',
+      'C. Bullying that happens online',
+      'D. A 2D shape with straight sides',
+      'E. Removing parts of a video',
+      'F. A repeat in programming',
+      'G. Finding and fixing errors',
+      'H. Recording in front of a coloured background',
+      'I. The order of instructions',
+      'J. Someone you can talk to for help'
+    ];
+
+    (function buildMatchTable() {
+      const tbody = document.getElementById('matchBody');
+      const letters = ['A','B','C','D','E','F','G','H','I','J'];
+      matchTerms.forEach((term, idx) => {
+        const qNum = 31 + idx;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${qNum}. ${term}</td>
+          <td>
+            <select class="match-select" name="q${qNum}">
+              <option value="">-- Select --</option>
+              ${matchOptions.map((opt, i) => `<option value="${letters[i]}">${opt}</option>`).join('')}
+            </select>
+          </td>`;
+        tbody.appendChild(tr);
+      });
+    })();
+
+    /* ============================================================
+       ANSWER KEY & MARKING
+       ============================================================ */
+    const mcqAnswers = {
+      1:'B', 2:'C', 3:'D', 4:'A', 5:'B', 6:'C', 7:'B', 8:'D', 9:'A', 10:'C',
+      11:'B', 12:'D', 13:'A', 14:'B', 15:'C', 16:'A', 17:'B', 18:'D', 19:'A', 20:'C'
+    };
+    const fillAnswers = {
+      21:'algorithm', 22:'cyberbullying', 23:'loop', 24:'polygon', 25:'cropping',
+      26:'trusted', 27:'nested', 28:'merging', 29:'four', 30:'debugging'
+    };
+    const matchAnswers = {
+      31:'B', 32:'C', 33:'F', 34:'D', 35:'E', 36:'A', 37:'G', 38:'H', 39:'I', 40:'J'
+    };
+    const tfAnswers = {
+      41:'False', 42:'False', 43:'True', 44:'False', 45:'True',
+      46:'False', 47:'True', 48:'False', 49:'True', 50:'True'
+    };
+    const shortKeywords = {
+      51: ['online','internet','messaging','mean','hurtful','bully'],
+      52: ['step','instruction','order','sequence','algorithm'],
+      53: ['tell','adult','help','support','report','trusted'],
+      54: ['repeat','inside','nested','another','loop'],
+      55: ['green','background','coloured','replace','record','screen'],
+      56: ['error','fix','find','correct','bug','debug'],
+      57: ['personal','address','phone','identify','private','information'],
+      58: ['order','instruction','step','sequence','follow'],
+      59: ['crop','remove','cut','merge','join'],
+      60: ['360','degree','turn','shape','angle']
+    };
+    const marks = { mcq: 1, fill: 1, match: 1, tf: 1, short: 3 };
+
+    /* ============================================================
+       TIMER
+       ============================================================ */
+    let timeLeft = 3600;
+    let timerInterval = null;
+    const timerDisplay = document.getElementById('timerDisplay');
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timeLeft = 3600;
+      renderTimer();
+      timerInterval = setInterval(() => {
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          alert('⏰ Time is up! Your exam will be submitted automatically.');
+          submitExam();
+          return;
+        }
+        timeLeft--;
+        renderTimer();
+      }, 1000);
+    }
+    function renderTimer() {
+      const mins = Math.floor(timeLeft / 60);
+      const secs = timeLeft % 60;
+      timerDisplay.textContent = `⏱ ${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+      if (timeLeft <= 300) timerDisplay.classList.add('warning');
+      else timerDisplay.classList.remove('warning');
+    }
+
+    /* ============================================================
+       PROGRESS BAR
+       ============================================================ */
+    function attachProgressListeners() {
+      const form = document.getElementById('examForm');
+      form.addEventListener('input', updateProgress);
+      form.addEventListener('change', updateProgress);
+    }
+
+    function updateProgress() {
+      const total = 60;
+      let answered = 0;
+
+      // MCQ
+      for (let i = 1; i <= 20; i++) {
+        if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+      }
+      // Fill
+      for (let i = 21; i <= 30; i++) {
+        const el = document.querySelector(`input[name="q${i}"]`);
+        if (el && el.value.trim() !== '') answered++;
+      }
+      // Match
+      for (let i = 31; i <= 40; i++) {
+        const el = document.querySelector(`select[name="q${i}"]`);
+        if (el && el.value !== '') answered++;
+      }
+      // TF
+      for (let i = 41; i <= 50; i++) {
+        if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+      }
+      // Short
+      for (let i = 51; i <= 60; i++) {
+        const el = document.querySelector(`textarea[name="q${i}"]`);
+        if (el && el.value.trim() !== '') answered++;
+      }
+
+      const pct = Math.round((answered / total) * 100);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressText').textContent = `${answered} / ${total} answered`;
+    }
+
+    /* ============================================================
+       SUBMIT & AUTO-CHECK
+       ============================================================ */
+    function submitExam() {
+      clearInterval(timerInterval);
+
+      const inputs = document.querySelectorAll('#examForm input, #examForm select, #examForm textarea');
+      inputs.forEach(el => el.disabled = true);
+
+      let totalScore = 0, correctCount = 0, wrongCount = 0, attemptedCount = 0;
+      let correctionsHTML = '';
+
+      // MCQ
+      for (let i = 1; i <= 20; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const userAns = selected ? selected.value : '(not answered)';
+        const correctAns = mcqAnswers[i];
+        const ok = userAns === correctAns;
+        if (ok) { totalScore += marks.mcq; correctCount++; } else { wrongCount++; }
+        if (userAns !== '(not answered)') attemptedCount++;
+        correctionsHTML += `
+          <div class="correction-item ${ok ? 'correct' : 'incorrect'}">
+            <span class="check-icon">${ok ? '✅' : '❌'}</span>
+            <span class="q-num">Q${i} (MCQ)</span> — Your answer: 
+            <span class="${ok ? 'correct-ans' : 'wrong-ans'}">${userAns}</span>
+            ${!ok ? ` · Correct answer: <span class="correct-ans">${correctAns}</span>` : ''}
+          </div>`;
+      }
+
+      // Fill
+      for (let i = 21; i <= 30; i++) {
+        const el = document.querySelector(`input[name="q${i}"]`);
+        const userAns = el ? el.value.trim().toLowerCase() : '';
+        const correctAns = fillAnswers[i];
+        const ok = userAns === correctAns;
+        if (ok) { totalScore += marks.fill; correctCount++; } else { wrongCount++; }
+        if (userAns !== '') attemptedCount++;
+        correctionsHTML += `
+          <div class="correction-item ${ok ? 'correct' : 'incorrect'}">
+            <span class="check-icon">${ok ? '✅' : '❌'}</span>
+            <span class="q-num">Q${i} (Fill)</span> — Your answer: 
+            <span class="${ok ? 'correct-ans' : 'wrong-ans'}">${userAns || '(blank)'}</span>
+            ${!ok ? ` · Correct answer: <span class="correct-ans">${correctAns}</span>` : ''}
+          </div>`;
+      }
+
+      // Match
+      for (let i = 31; i <= 40; i++) {
+        const el = document.querySelector(`select[name="q${i}"]`);
+        const userAns = el ? el.value : '';
+        const correctAns = matchAnswers[i];
+        const ok = userAns === correctAns;
+        if (ok) { totalScore += marks.match; correctCount++; } else { wrongCount++; }
+        if (userAns !== '') attemptedCount++;
+        correctionsHTML += `
+          <div class="correction-item ${ok ? 'correct' : 'incorrect'}">
+            <span class="check-icon">${ok ? '✅' : '❌'}</span>
+            <span class="q-num">Q${i} (Match)</span> — Your answer: 
+            <span class="${ok ? 'correct-ans' : 'wrong-ans'}">${userAns || '(blank)'}</span>
+            ${!ok ? ` · Correct answer: <span class="correct-ans">${correctAns}</span>` : ''}
+          </div>`;
+      }
+
+      // True/False
+      for (let i = 41; i <= 50; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        const userAns = selected ? selected.value : '(not answered)';
+        const correctAns = tfAnswers[i];
+        const ok = userAns === correctAns;
+        if (ok) { totalScore += marks.tf; correctCount++; } else { wrongCount++; }
+        if (userAns !== '(not answered)') attemptedCount++;
+        correctionsHTML += `
+          <div class="correction-item ${ok ? 'correct' : 'incorrect'}">
+            <span class="check-icon">${ok ? '✅' : '❌'}</span>
+            <span class="q-num">Q${i} (T/F)</span> — Your answer: 
+            <span class="${ok ? 'correct-ans' : 'wrong-ans'}">${userAns}</span>
+            ${!ok ? ` · Correct answer: <span class="correct-ans">${correctAns}</span>` : ''}
+          </div>`;
+      }
+
+      // Short
+      for (let i = 51; i <= 60; i++) {
+        const el = document.querySelector(`textarea[name="q${i}"]`);
+        const userAns = el ? el.value.trim() : '';
+        const keywords = shortKeywords[i];
+        const matched = keywords.filter(kw => userAns.toLowerCase().includes(kw));
+        const ok = matched.length >= 1;
+        if (ok) { totalScore += marks.short; correctCount++; } else { wrongCount++; }
+        if (userAns !== '') attemptedCount++;
+        correctionsHTML += `
+          <div class="correction-item ${ok ? 'correct' : 'incorrect'}">
+            <span class="check-icon">${ok ? '✅' : '❌'}</span>
+            <span class="q-num">Q${i} (Short)</span> — Your answer: 
+            <span class="${ok ? 'correct-ans' : 'wrong-ans'}">${userAns || '(blank)'}</span>
+            ${!ok ? `<br>Key ideas to include: <span class="correct-ans">${keywords.join(', ')}</span>` : ''}
+          </div>`;
+      }
+
+      // Display
+      const totalMarks = 80;
+      const percentage = Math.round((totalScore / totalMarks) * 100);
+      const resultBox = document.getElementById('resultBox');
+
+      let grade = '';
+      let gradeIcon = '';
+      if (percentage >= 80) { grade = 'Excellent work!'; gradeIcon = '🌟'; }
+      else if (percentage >= 60) { grade = 'Good effort!'; gradeIcon = '👍'; }
+      else if (percentage >= 40) { grade = 'Keep practising!'; gradeIcon = '📖'; }
+      else { grade = 'Review the topics and try again.'; gradeIcon = '💪'; }
+
+      document.getElementById('scoreDisplay').innerHTML =
+        `${totalScore}<span>/${totalMarks}</span>`;
+      document.getElementById('scoreSub').innerHTML =
+        `${gradeIcon} <strong>${currentStudent}</strong> — ${grade}`;
+
+      document.getElementById('statCorrect').textContent = correctCount;
+      document.getElementById('statWrong').textContent = wrongCount;
+      document.getElementById('statAttempted').textContent = attemptedCount + ' / 60';
+      document.getElementById('statPercent').textContent = percentage + '%';
+
+      document.getElementById('correctionsList').innerHTML = correctionsHTML;
+      resultBox.classList.add('show');
+      resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ============================================================
+       RESET
+       ============================================================ */
+    function resetExam() {
+      if (!confirm('Are you sure you want to reset the exam? All answers will be cleared.')) return;
+
+      const inputs = document.querySelectorAll('#examForm input, #examForm select, #examForm textarea');
+      inputs.forEach(el => { el.disabled = false; });
+
+      document.querySelectorAll('#examForm input[type="radio"]').forEach(r => r.checked = false);
+      document.querySelectorAll('#examForm input[type="text"]').forEach(t => t.value = '');
+      document.querySelectorAll('#examForm select').forEach(s => s.value = '');
+      document.querySelectorAll('#examForm textarea').forEach(ta => ta.value = '');
+
+      document.getElementById('resultBox').classList.remove('show');
+      updateProgress();
+
+      clearInterval(timerInterval);
+      startTimer();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  </script>
+
+</body>
+</html>
